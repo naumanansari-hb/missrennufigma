@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Miss Rennu Online</title>
+  
+  <!-- Primary Font: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* CSS Design System Tokens */
+    :root {
+      /* Immersive Light Theme Color Tokens matching index.html */
+      --bg-dark: #F8F9FC;
+      --bg-radial: radial-gradient(circle at 10% 20%, rgba(245, 247, 250, 1) 0%, rgba(235, 240, 247, 1) 90%);
+      --bg-card: rgba(255, 255, 255, 0.75);
+      --border-color: rgba(27, 44, 110, 0.08);
+      --navy: #1B2C6E;
+      --navy-dark: #111D4A;
+
+      --color-surface-base: #000000;
+      --color-text-primary: #1E293B;
+      --color-text-secondary: #ffffff;
+      --color-text-tertiary: #555555;
+      --color-text-muted: #5A6178;
+      --color-text-inverse: #007bff;
+      --color-surface-muted: #fff3d1;
+      --color-surface-raised: #ffc107;
+      --color-surface-raised-hover: #e0a800;
+      --color-surface-strong: #28a745;
+      --color-surface-strong-hover: #218838;
+      --color-border-strong: rgba(27, 44, 110, 0.12);
+      --color-border-light: #e9ecef;
+      --color-sidebar-item: #1B2C6E;
+      --color-sidebar-item-hover: #111D4A;
+
+      --font-family-primary: 'Poppins', sans-serif;
+      --font-size-xs: 14px;
+      --font-size-sm: 15px;
+      --font-size-base: 16px;
+      --font-size-lg: 18px;
+      
+      --space-1: 5px;
+      --space-2: 6px;
+      --space-3: 8px;
+      --space-4: 8.8px;
+      --space-5: 11px;
+      --space-6: 12px;
+      --space-7: 15px;
+      --space-8: 16px;
+
+      --radius-xs: 4px;
+      --radius-sm: 5px;
+      --radius-md: 8px;
+
+      --motion-instant: 150ms ease-in-out;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100vh;
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-base);
+      color: var(--color-text-primary);
+      background: var(--bg-dark);
+      background-image: var(--bg-radial);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Background Interactive Canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Ambient Glow Spots */
+    .ambient-glow-1 {
+      position: absolute;
+      top: 10%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(56, 189, 248, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow-2 {
+      position: absolute;
+      top: 50%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 166, 35, 0.1) 0%, rgba(245, 166, 35, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Outer Wrapper */
+    .app-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar (Glassmorphic Light UI from index.html) */
+    .navbar {
+      height: 72px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      box-shadow: 0 4px 20px rgba(27, 44, 110, 0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .navbar-logo {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(27, 44, 110, 0.06));
+    }
+
+    .menu-toggle {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--navy);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px 10px;
+      border-radius: var(--radius-xs);
+      transition: background var(--motion-instant), border-color var(--motion-instant);
+    }
+
+    .menu-toggle:hover, .menu-toggle:focus-visible {
+      background: rgba(27, 44, 110, 0.05);
+      border-color: rgba(27, 44, 110, 0.18);
+      outline: none;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: var(--navy);
+      border-radius: 1px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Notification Bell */
+    .notification-btn {
+      position: relative;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      border-radius: 50%;
+      transition: background var(--motion-instant), border-color var(--motion-instant);
+    }
+
+    .notification-btn:hover, .notification-btn:focus-visible {
+      background: rgba(27, 44, 110, 0.05);
+      border-color: rgba(27, 44, 110, 0.18);
+      outline: none;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background-color: var(--color-surface-raised);
+      color: #000000;
+      font-size: 11px;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(27, 44, 110, 0.15);
+    }
+
+    /* User Dropdown */
+    .user-dropdown-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-family-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: var(--radius-xs);
+      transition: background var(--motion-instant), border-color var(--motion-instant);
+    }
+
+    .user-dropdown-btn:hover, .user-dropdown-btn:focus-visible {
+      background: rgba(27, 44, 110, 0.05);
+      border-color: rgba(27, 44, 110, 0.18);
+      outline: none;
+    }
+
+    /* Main Content Layout */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      position: relative;
+      align-items: stretch;
+    }
+
+    /* Left Sidebar */
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 10;
+      padding-top: 10px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 100%;
+    }
+
+    .sidebar-item {
+      width: 100%;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--navy);
+      transition: all var(--motion-instant);
+      border-left: 4px solid transparent;
+      border-radius: var(--radius-xs);
+      margin-bottom: 3px;
+    }
+
+    .sidebar-link:hover, .sidebar-link:focus-visible {
+      background: var(--navy-dark);
+      outline: none;
+    }
+
+    .sidebar-link.active {
+      background-color: var(--color-surface-raised);
+      color: #000000;
+      font-weight: 700;
+    }
+
+    .sidebar-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      fill: currentColor;
+    }
+
+    /* Right Dashboard View Surface */
+    .dashboard-view {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      margin: 16px 16px 16px 0;
+      padding: 24px;
+      border-radius: var(--radius-xs);
+      box-shadow: 0 4px 20px rgba(27, 44, 110, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      z-index: 5;
+    }
+
+    /* 2x2 Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      width: 100%;
+    }
+
+    /* Card Component */
+    .card {
+      background: #ffffff;
+      border-radius: 2px;
+      border: 1px solid var(--color-border-strong);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .card-header {
+      background-color: var(--color-surface-muted);
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .card-body {
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+
+    /* Inner List Box Container */
+    .list-box {
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-xs);
+      background: #ffffff;
+      position: relative;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 140px;
+    }
+
+    /* Up / Down Arrow Indicators */
+    .scroll-arrow {
+      position: absolute;
+      right: 8px;
+      color: #888888;
+      font-size: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .scroll-arrow.up {
+      top: 6px;
+    }
+
+    .scroll-arrow.down {
+      bottom: 6px;
+    }
+
+    /* Level Card Rows */
+    .level-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .level-label {
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .level-link {
+      color: var(--color-text-inverse);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .level-link:hover, .level-link:focus-visible {
+      text-decoration: underline;
+    }
+
+    .level-date {
+      color: #999999;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Blog Card Rows */
+    .blog-box {
+      max-height: 210px;
+      overflow-y: auto;
+      padding-right: 12px;
+    }
+
+    .blog-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-bottom: 12px;
+      border-bottom: 1px dotted #e0e0e0;
+    }
+
+    .blog-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .blog-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .blog-title-label {
+      font-weight: 700;
+      color: var(--color-text-primary);
+      font-size: 13px;
+    }
+
+    .blog-title-link {
+      color: var(--color-text-inverse);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .blog-title-link:hover, .blog-title-link:focus-visible {
+      text-decoration: underline;
+    }
+
+    .blog-date {
+      color: #999999;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .blog-snippet {
+      font-size: 12px;
+      color: #444444;
+      line-height: 1.5;
+    }
+
+    /* Custom Scrollbar for Blog */
+    .blog-box::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .blog-box::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    .blog-box::-webkit-scrollbar-thumb {
+      background: #aaaaaa;
+      border-radius: 3px;
+    }
+
+    /* Students Card Rows */
+    .student-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    .student-name {
+      font-weight: 700;
+      color: var(--color-text-primary);
+      width: 40%;
+    }
+
+    .student-grade {
+      color: var(--color-text-tertiary);
+      width: 35%;
+    }
+
+    .action-btn {
+      background-color: var(--color-surface-strong);
+      color: #ffffff;
+      border: none;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-family-primary);
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+      transition: background-color var(--motion-instant);
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .action-btn:hover, .action-btn:focus-visible {
+      background-color: var(--color-surface-strong-hover);
+      outline: none;
+    }
+
+    /* Yellow View More Action Buttons */
+    .card-footer {
+      display: flex;
+      justify-content: center;
+      padding-top: 4px;
+    }
+
+    .btn-view-more {
+      background-color: var(--color-surface-raised);
+      color: #000000;
+      border: none;
+      padding: 8px 36px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-family-primary);
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+      transition: background-color var(--motion-instant), transform var(--motion-instant);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-view-more:hover, .btn-view-more:focus-visible {
+      background-color: var(--color-surface-raised-hover);
+      outline: none;
+    }
+
+    /* Message Board Empty State */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 150px;
+      gap: 14px;
+    }
+
+    .empty-icon-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 1.5px solid #d0d5dd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #98a2b3;
+    }
+
+    .empty-text {
+      color: #344054;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Responsive Breakdown */
+    @media (max-width: 992px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      .main-wrapper {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+      }
+      .dashboard-view {
+        margin: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Interactive Particle Background Canvas & Ambient Glows (from index.html) -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="app-container">
+    
+    <!-- Top Navigation Header -->
+    <header class="navbar" role="banner">
+      <div class="navbar-left">
+        <a href="dashboard.html" aria-label="Miss Rennu Online Home">
+          <img src="logo.png" alt="Miss Rennu Logo" class="navbar-logo" />
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation menu" id="menuToggleBtn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <div class="navbar-right">
+        <!-- Notification Icon with Count -->
+        <button class="notification-btn" aria-label="Notifications, 44 unread">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="notification-badge">44</span>
+        </button>
+
+        <!-- User Dropdown Menu -->
+        <button class="user-dropdown-btn" aria-label="User menu for HB Testing Center" aria-expanded="false">
+          <span>HB Testing Center</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Section -->
+    <div class="main-wrapper">
+      
+      <!-- Left Sidebar Navigation -->
+      <aside class="sidebar" role="navigation" aria-label="Main Navigation">
+        <ul class="sidebar-menu">
+          
+          <li class="sidebar-item">
+            <a href="dashboard.html" class="sidebar-link active" aria-current="page">
+              <svg class="sidebar-icon" viewBox="0 0 24 24">
+                <path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>About Us</span>
+            </a>
+          </li>
+
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>Levels</span>
+            </a>
+          </li>
+
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+              </svg>
+              <span>Blogs</span>
+            </a>
+          </li>
+
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              <span>Copyright Policy</span>
+            </a>
+          </li>
+
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span>Terms and Conditions</span>
+            </a>
+          </li>
+
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <span>Contact Us</span>
+            </a>
+          </li>
+
+        </ul>
+      </aside>
+
+      <!-- Right Dashboard Content View -->
+      <main class="dashboard-view" role="main">
+        <div class="dashboard-grid">
+          
+          <!-- Card 1: Level -->
+          <section class="card" aria-labelledby="card-level-heading">
+            <h2 id="card-level-heading" class="card-header">Level</h2>
+            <div class="card-body">
+              <div class="list-box">
+                <span class="scroll-arrow up" aria-hidden="true">▲</span>
+                
+                <div class="level-item">
+                  <div>
+                    <span class="level-label">Level: </span>
+                    <a href="#" class="level-link">Preschool September</a>
+                  </div>
+                  <div class="level-date">Aug 25 , 2026 to Sep 30 , 2026</div>
+                </div>
+
+                <div class="level-item">
+                  <div>
+                    <span class="level-label">Level: </span>
+                    <a href="#" class="level-link">Pre-K September</a>
+                  </div>
+                  <div class="level-date">Aug 25 , 2026 to Sep 30 , 2026</div>
+                </div>
+
+                <span class="scroll-arrow down" aria-hidden="true">▼</span>
+              </div>
+
+              <div class="card-footer">
+                <button type="button" class="btn-view-more">View More</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Card 2: Blog -->
+          <section class="card" aria-labelledby="card-blog-heading">
+            <h2 id="card-blog-heading" class="card-header">Blog</h2>
+            <div class="card-body">
+              <div class="list-box blog-box">
+                <span class="scroll-arrow up" aria-hidden="true">▲</span>
+                
+                <!-- Blog Item 1 -->
+                <article class="blog-item">
+                  <div class="blog-header-line">
+                    <div>
+                      <span class="blog-title-label">Title : </span>
+                      <a href="#" class="blog-title-link">Force Feeding Leads to Negative Consequences</a>
+                    </div>
+                    <span class="blog-date">May 15 , 2021</span>
+                  </div>
+                  <p class="blog-snippet">
+                    Force feeding should be completely avoided. Instead focus on mealtimes being a positive experience for all.
+                  </p>
+                </article>
+
+                <!-- Blog Item 2 -->
+                <article class="blog-item">
+                  <div class="blog-header-line">
+                    <div>
+                      <span class="blog-title-label">Title : </span>
+                      <a href="#" class="blog-title-link">The Importance of Public Speaking</a>
+                    </div>
+                    <span class="blog-date">May 14 , 2021</span>
+                  </div>
+                  <p class="blog-snippet">
+                    Public speaking is a critical life skill for everyone to learn.
+                  </p>
+                </article>
+
+                <!-- Blog Item 3 -->
+                <article class="blog-item">
+                  <div class="blog-header-line">
+                    <div>
+                      <span class="blog-title-label">Title : </span>
+                      <a href="#" class="blog-title-link">See, Hear, Say, Do - The Importance of Multiple Sensory Learning</a>
+                    </div>
+                    <span class="blog-date">May 13 , 2021</span>
+                  </div>
+                  <p class="blog-snippet">
+                    Everyone is unique with different learning styles. The best methodology is one that incorporates all the multiple senses.
+                  </p>
+                </article>
+
+                <span class="scroll-arrow down" aria-hidden="true">▼</span>
+              </div>
+
+              <div class="card-footer">
+                <button type="button" class="btn-view-more">View More</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Card 3: Students -->
+          <section class="card" aria-labelledby="card-students-heading">
+            <h2 id="card-students-heading" class="card-header">Students</h2>
+            <div class="card-body">
+              <div class="list-box">
+                <span class="scroll-arrow up" aria-hidden="true">▲</span>
+                
+                <!-- Student 1 -->
+                <div class="student-item">
+                  <div class="student-name">Nauman Hidden Brains</div>
+                  <div class="student-grade">Pre-Kindergarten</div>
+                  <button type="button" class="action-btn" onclick="toggleStudentState(this)">Activate</button>
+                </div>
+
+                <!-- Student 2 -->
+                <div class="student-item">
+                  <div class="student-name">Rennu Hidden Brains</div>
+                  <div class="student-grade">Preschool</div>
+                  <button type="button" class="action-btn" onclick="toggleStudentState(this)">De-activate</button>
+                </div>
+
+                <span class="scroll-arrow down" aria-hidden="true">▼</span>
+              </div>
+
+              <div class="card-footer">
+                <button type="button" class="btn-view-more">View More</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Card 4: Message Board -->
+          <section class="card" aria-labelledby="card-messageboard-heading">
+            <h2 id="card-messageboard-heading" class="card-header">Message Board</h2>
+            <div class="card-body">
+              <div class="empty-state">
+                <div class="empty-icon-circle" aria-hidden="true">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 1-2 2v16a2 2 0 0 1 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="9" y1="13" x2="15" y2="13"></line>
+                    <line x1="9" y1="17" x2="13" y2="17"></line>
+                    <polyline points="9 9 10 9"></polyline>
+                  </svg>
+                </div>
+                <p class="empty-text">No messages found.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <script>
+    // Background Interactive Canvas Animation (from index.html)
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouse = { x: null, y: null, radius: 120 };
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    }
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.size = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+        // Mouse interaction
+        if (mouse.x !== null && mouse.y !== null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < mouse.radius) {
+            let force = (mouse.radius - dist) / mouse.radius;
+            this.x -= dx / dist * force * 0.5;
+            this.y -= dy / dist * force * 0.5;
+          }
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(27, 44, 110, 0.12)';
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 30000));
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].y, particles[j].y);
+            ctx.strokeStyle = `rgba(27, 44, 110, ${0.06 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('mouseout', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    resizeCanvas();
+    animate();
+
+    // Interactive Student Activate / De-activate toggle
+    function toggleStudentState(btn) {
+      if (btn.innerText.trim() === 'Activate') {
+        btn.innerText = 'De-activate';
+      } else {
+        btn.innerText = 'Activate';
+      }
+    }
+
+    // Toggle menu button behavior
+    document.getElementById('menuToggleBtn').addEventListener('click', function() {
+      const sidebar = document.querySelector('.sidebar');
+      if (sidebar.style.display === 'none') {
+        sidebar.style.display = 'flex';
+      } else {
+        sidebar.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parent Registration – Miss Rennu Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #F8F9FC;
+      --bg-radial: radial-gradient(circle at 10% 20%, rgba(245, 247, 250, 1) 0%, rgba(235, 240, 247, 1) 90%);
+      --bg-card: rgba(255, 255, 255, 0.75);
+      --bg-card-hover: rgba(255, 255, 255, 0.95);
+      --border-color: rgba(27, 44, 110, 0.08);
+      --border-hover: rgba(27, 44, 110, 0.18);
+
+      --accent-parent: #0284C7;
+      --accent-parent-rgb: 2, 132, 199;
+
+      --navy: #1B2C6E;
+      --navy-dark: #111D4A;
+      --gold: #F5A623;
+      --white: #FFFFFF;
+      --text: #1E293B;
+      --text-muted: #5A6178;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg-dark);
+      background-image: var(--bg-radial);
+      background-attachment: fixed;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100vw;
+    }
+
+    /* Background Interactive Canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Ambient Glow Spots */
+    .ambient-glow-1 {
+      position: absolute;
+      top: 10%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(2, 132, 199, 0.1) 0%, rgba(2, 132, 199, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow-2 {
+      position: absolute;
+      bottom: 10%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 166, 35, 0.08) 0%, rgba(245, 166, 35, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top Navigation Header */
+    .top-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 24px 48px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      z-index: 100;
+    }
+
+    /* Back Home Button */
+    .back-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 12px rgba(27, 44, 110, 0.04);
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+
+    .back-home-btn:hover {
+      border-color: var(--accent-parent);
+      transform: translateX(-3px);
+      box-shadow: 0 6px 16px rgba(27, 44, 110, 0.08);
+    }
+
+    .back-home-btn svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.25s;
+    }
+
+    /* Split Container Layout */
+    .split-container {
+      width: 100%;
+      max-width: 900px;
+      margin: 60px auto 30px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 36px;
+      align-items: center;
+      z-index: 10;
+    }
+
+    /* Left Pane - Display & Marketing Info */
+    .display-pane {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 20px 45px rgba(27, 44, 110, 0.04);
+      position: relative;
+    }
+
+    .kicker-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #D97706;
+      background: rgba(245, 166, 35, 0.12);
+      border: 1px solid rgba(245, 166, 35, 0.25);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      align-self: flex-start;
+      box-shadow: 0 4px 15px rgba(245, 166, 35, 0.03);
+    }
+
+    .kicker-pill svg {
+      color: var(--accent-parent);
+    }
+
+    .display-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+      line-height: 1.2;
+      color: var(--navy);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .display-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      border-left: 3px solid rgba(2, 132, 199, 0.45);
+      padding-left: 12px;
+    }
+
+    /* Tablet device mockup */
+    .tablet-mockup {
+      background: var(--white);
+      border: 1.5px solid var(--border-color);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(27, 44, 110, 0.08), 0 0 30px rgba(56, 189, 248, 0.05);
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .tablet-controls {
+      height: 24px;
+      background: rgba(27, 44, 110, 0.02);
+      border-bottom: 1.5px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 12px;
+    }
+
+    .tablet-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .tablet-dot.red {
+      background: #EF4444;
+    }
+
+    .tablet-dot.yellow {
+      background: #F59E0B;
+    }
+
+    .tablet-dot.green {
+      background: #10B981;
+    }
+
+    .video-wrapper {
+      display: block;
+      position: relative;
+      width: 100%;
+      padding-bottom: 100%;
+      /* 1:1 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      background: #000;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+    }
+
+    .video-thumbnail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Fills square perfectly, cropping sides of 16:9 image */
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    .video-wrapper:hover .video-thumbnail {
+      transform: scale(1.05);
+      filter: brightness(0.95);
+    }
+
+    /* Play Button Hover Glow Overlay */
+    .video-play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(27, 44, 110, 0.08);
+      transition: background 0.3s ease;
+      z-index: 5;
+    }
+
+    .video-wrapper:hover .video-play-overlay {
+      background: rgba(27, 44, 110, 0.18);
+    }
+
+    .play-button-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #FF0000;
+      /* YouTube Red */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(255, 0, 0, 0.35);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .play-button-circle svg {
+      width: 24px;
+      height: 24px;
+      color: var(--white);
+      margin-left: 4px;
+      /* Visual optical alignment */
+    }
+
+    .video-wrapper:hover .play-button-circle {
+      transform: scale(1.12);
+      background: #E60000;
+      box-shadow: 0 12px 28px rgba(255, 0, 0, 0.5);
+    }
+
+    .video-wrapper:active .play-button-circle {
+      transform: scale(0.95);
+    }
+
+    .tablet-caption {
+      padding: 12px 16px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      background: rgba(27, 44, 110, 0.01);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .tablet-caption a {
+      color: var(--accent-parent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* Visible input fields labels */
+    .field-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 3px;
+      margin-left: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      display: block;
+    }
+
+    /* Centered Registration Form Card */
+    .form-pane {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .signup-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: 24px;
+      padding: 28px 36px;
+      width: 100%;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 20px 45px rgba(27, 44, 110, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Multi-step progress tracker */
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin: 8px 0 16px;
+      position: relative;
+      padding: 0 10px;
+    }
+
+    .step-line-bg {
+      position: absolute;
+      top: 17px;
+      left: 20px;
+      right: 20px;
+      height: 3px;
+      background: rgba(27, 44, 110, 0.06);
+      z-index: 1;
+      border-radius: 9999px;
+    }
+
+    .step-line-progress {
+      position: absolute;
+      top: 17px;
+      left: 20px;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-parent) 0%, #38bdf8 100%);
+      z-index: 2;
+      border-radius: 9999px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .step-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      z-index: 3;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(27, 44, 110, 0.02);
+    }
+
+    .step-dot.active {
+      border-color: var(--accent-parent);
+      color: var(--accent-parent);
+      box-shadow: 0 0 0 4px rgba(var(--accent-parent-rgb), 0.15);
+      transform: scale(1.05);
+    }
+
+    .step-dot.completed {
+      background: var(--accent-parent);
+      border-color: var(--accent-parent);
+      color: var(--white);
+    }
+
+    .step-dot svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 3;
+    }
+
+    .step-title-subtitle {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    /* Form Steps wrapper and transition */
+    .form-step {
+      display: none;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-step.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Form Step Action Buttons */
+    .step-buttons {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .back-btn {
+      flex: 1;
+      padding: 10px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: border-color 0.25s, color 0.25s, background-color 0.25s;
+      outline: none;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent-parent);
+      color: var(--accent-parent);
+      background: rgba(var(--accent-parent-rgb), 0.03);
+    }
+
+    .next-btn {
+      flex: 2;
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(27, 44, 110, 0.15);
+      transition: background 0.25s, box-shadow 0.25s, transform 0.2s;
+      outline: none;
+    }
+
+    .next-btn:hover {
+      box-shadow: 0 6px 20px rgba(27, 44, 110, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .next-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Validation error styles */
+    .input-wrapper input.invalid,
+    .input-wrapper select.invalid {
+      border-color: #EF4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+    }
+
+    .input-wrapper input.invalid+svg.field-icon,
+    .input-wrapper select.invalid+svg.field-icon {
+      color: #EF4444 !important;
+    }
+
+    .error-text {
+      color: #EF4444;
+      font-size: 0.72rem;
+      font-weight: 600;
+      margin-left: 4px;
+      margin-top: 2px;
+      display: none;
+    }
+
+    /* Custom high-fidelity success modal overlay */
+    .success-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 29, 74, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .success-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .success-modal-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+      border-radius: 28px;
+      padding: 40px;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 25px 60px rgba(17, 29, 74, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .success-modal-overlay.active .success-modal-card {
+      transform: scale(1);
+    }
+
+    .success-icon-ring {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #DCFCE7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.2);
+    }
+
+    .success-icon-ring svg {
+      width: 36px;
+      height: 36px;
+      color: #22C55E;
+      stroke-width: 3;
+    }
+
+    .success-modal-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      color: var(--navy);
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .success-modal-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .success-redirect-loader {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--accent-parent);
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(2, 132, 199, 0.15);
+      border-top-color: var(--accent-parent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Keyframe Shake animation for input errors */
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20%,
+      60% {
+        transform: translateX(-4px);
+      }
+
+      40%,
+      80% {
+        transform: translateX(4px);
+      }
+    }
+
+    .shake-error {
+      animation: shake 0.3s ease;
+    }
+
+    .logo-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2px;
+    }
+
+    .logo-container img {
+      height: 44px;
+      width: auto;
+      filter: drop-shadow(0 2px 8px rgba(27, 44, 110, 0.06));
+    }
+
+    .form-header {
+      text-align: center;
+    }
+
+    .form-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      color: var(--navy);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+
+    .form-header p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      max-width: 480px;
+      line-height: 1.4;
+    }
+
+    .signup-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .input-grid-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper svg.field-icon {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+      pointer-events: none;
+      transition: color 0.25s;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+      width: 100%;
+      padding: 10px 14px 10px 40px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text);
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+      outline: none;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      border-color: var(--accent-parent);
+      box-shadow: 0 0 0 3px rgba(var(--accent-parent-rgb), 0.15);
+      background: var(--white);
+    }
+
+    .input-wrapper input:focus+svg.field-icon,
+    .input-wrapper select:focus+svg.field-icon {
+      color: var(--accent-parent);
+    }
+
+    /* Select Dropdown Chevron styling */
+    .input-wrapper select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      padding-right: 36px;
+    }
+
+    .select-chevron {
+      position: absolute;
+      right: 14px;
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Password visibility toggle */
+    .password-toggle {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .password-toggle:hover {
+      color: var(--navy);
+      background: rgba(27, 44, 110, 0.05);
+    }
+
+    .password-toggle svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* reCAPTCHA Mockup container styles */
+    .recaptcha-card {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 14px;
+      background: #F9FAFB;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      height: 52px;
+      margin: 4px 0;
+    }
+
+    .recaptcha-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .recaptcha-checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #C5C9D6;
+      border-radius: 4px;
+      background: #FFFFFF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      padding: 0;
+      outline: none;
+    }
+
+    .recaptcha-checkbox:hover {
+      border-color: #A0A6B9;
+    }
+
+    .check-mark-svg {
+      width: 16px;
+      height: 16px;
+      display: none;
+    }
+
+    .recaptcha-checkbox.checked {
+      border-color: #22C55E;
+      background: #F0FDF4;
+    }
+
+    .recaptcha-checkbox.checked .check-mark-svg {
+      display: block;
+    }
+
+    .recaptcha-text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #374151;
+      user-select: none;
+    }
+
+    .recaptcha-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .recaptcha-logo {
+      height: 22px;
+      width: auto;
+    }
+
+    .recaptcha-privacy {
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Form Submit Button */
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(27, 44, 110, 0.2);
+      transition: background 0.25s, box-shadow 0.25s, transform 0.2s;
+    }
+
+    .submit-btn:hover {
+      box-shadow: 0 6px 20px rgba(27, 44, 110, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active {
+      transform: translateY(1px);
+    }
+
+    .form-info-note {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
+      padding: 0 12px;
+    }
+
+    /* Card Footer Link */
+    .card-footer {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    .card-footer a {
+      color: var(--accent-parent);
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .card-footer a:hover {
+      color: var(--navy);
+      text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 960px) {
+      body {
+        overflow-y: auto;
+        height: auto;
+        justify-content: flex-start;
+        padding-top: 70px;
+      }
+
+      .split-container {
+        grid-template-columns: 1fr;
+        height: auto;
+        max-width: 680px;
+        margin: 20px auto;
+        padding: 0 16px;
+      }
+
+      .display-pane {
+        display: none !important;
+      }
+
+      .signup-card {
+        padding: 24px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .input-grid-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .signup-card {
+        padding: 20px 16px;
+      }
+
+      .back-home-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Particle background canvas -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="top-nav">
+    <a href="index.html" class="back-home-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12" />
+        <polyline points="12 19 5 12 12 5" />
+      </svg>
+      Back to Home
+    </a>
+  </header>
+
+  <!-- Split container wrapper -->
+  <main class="split-container">
+
+
+    <!-- Registration Form Panel -->
+    <section class="form-pane">
+      <div class="signup-card">
+
+        <!-- Logo -->
+        <div class="logo-container">
+          <img
+            src="data:image/png;base64,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"
+            alt="Miss Rennu Logo" />
+        </div>
+
+        <div class="form-header">
+          <h2>Register With Us</h2>
+          <p>This e-learning site is for students currently enrolled and in good standing at Genius Kids Center(s).</p>
+        </div>
+
+        <form class="signup-form" onsubmit="event.preventDefault(); alert('Registration submitted!');">
+          <!-- Parent Information Row -->
+          <div class="input-grid-row">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input type="text" placeholder="Parent Name" required />
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input type="email" placeholder="Parent Email" required />
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Student Info Row (Student Name & Username grouped together) -->
+          <div class="input-grid-row">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input type="text" placeholder="Student Name" required />
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input type="text" placeholder="Username" required />
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Location Row (Country & City grouped together) -->
+          <div class="input-grid-row">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input type="text" placeholder="Country" required />
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path
+                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input type="text" placeholder="City" required />
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- School / Center Selection Row (Center & Class selection grouped together) -->
+          <div class="input-grid-row">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <select required>
+                  <option value="" disabled selected>Please Select Center</option>
+                  <option value="center1">Fremont Campus</option>
+                  <option value="center2">San Jose Center</option>
+                  <option value="center3">Oakland Center</option>
+                </select>
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-wrapper">
+                <select required>
+                  <option value="" disabled selected>Select Class</option>
+                  <option value="preschool">Preschool</option>
+                  <option value="kindergarten">Kindergarten</option>
+                  <option value="grade1">Grade 1</option>
+                  <option value="grade2">Grade 2</option>
+                </select>
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                </svg>
+                <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password & Confirm Password Row -->
+          <div class="input-grid-row">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input type="password" id="password" placeholder="Password" required />
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                <button type="button" class="password-toggle" id="togglePassword"
+                  aria-label="Toggle password visibility">
+                  <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                <button type="button" class="password-toggle" id="toggleConfirmPassword"
+                  aria-label="Toggle password visibility">
+                  <svg id="eyeConfirmIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- reCAPTCHA Mockup -->
+          <div class="recaptcha-card">
+            <div class="recaptcha-left">
+              <button type="button" class="recaptcha-checkbox" id="recaptchaCheck" aria-label="Confirm not a robot">
+                <svg class="check-mark-svg" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+              <span class="recaptcha-text">I'm not a robot</span>
+            </div>
+            <div class="recaptcha-right">
+              <img class="recaptcha-logo" src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
+                alt="reCAPTCHA logo" />
+              <span class="recaptcha-privacy">Privacy - Terms</span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn">Signup</button>
+        </form>
+
+        <p class="form-info-note">
+          If you are a new student, your account is subject to review by the franchisor. We will require confirmation
+          from the center that you have selected to confirm you are registered with them as a current student.
+        </p>
+
+        <!-- Card Footer -->
+        <div class="card-footer">
+          Back to <a href="parent-login.html">Login</a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Dynamically correct logo source to avoid truncated base64 image cut-off
+    const logoImg = document.querySelector('.logo-container img');
+    if (logoImg) {
+      logoImg.src = 'logo.png';
+    }
+
+    // 1. Password Visibility Toggle (First Password)
+    const passwordInput = document.getElementById('password');
+    const toggleButton = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    toggleButton.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+
+      if (type === 'text') {
+        eyeIcon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+          <line x1="1" y1="1" x2="23" y2="23" />
+        `;
+      } else {
+        eyeIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        `;
+      }
+    });
+
+    // 2. Password Visibility Toggle (Confirm Password)
+    const confirmInput = document.getElementById('confirmPassword');
+    const toggleConfirmButton = document.getElementById('toggleConfirmPassword');
+    const eyeConfirmIcon = document.getElementById('eyeConfirmIcon');
+
+    toggleConfirmButton.addEventListener('click', () => {
+      const type = confirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      confirmInput.setAttribute('type', type);
+
+      if (type === 'text') {
+        eyeConfirmIcon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+          <line x1="1" y1="1" x2="23" y2="23" />
+        `;
+      } else {
+        eyeConfirmIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        `;
+      }
+    });
+
+    // 3. reCAPTCHA Mockup Toggle checkmark
+    const recaptchaBtn = document.getElementById('recaptchaCheck');
+    recaptchaBtn.addEventListener('click', () => {
+      recaptchaBtn.classList.toggle('checked');
+    });
+
+    // 4. Interactive particle background canvas
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouse = { x: null, y: null, radius: 120 };
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    }
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.size = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+        if (mouse.x !== null && mouse.y !== null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < mouse.radius) {
+            let force = (mouse.radius - dist) / mouse.radius;
+            this.x -= dx / dist * force * 0.5;
+            this.y -= dy / dist * force * 0.5;
+          }
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(2, 132, 199, 0.12)';
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.min(50, Math.floor((canvas.width * canvas.height) / 30000));
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(2, 132, 199, ${0.06 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('mouseout', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    resizeCanvas();
+    animate();
+  </script>
+</body>
+
+</html>
