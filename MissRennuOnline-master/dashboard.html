@@ -5,11 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard – Miss Rennu Online</title>
-  
+
   <!-- Primary Font: Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+    rel="stylesheet" />
 
   <style>
     /* CSS Design System Tokens */
@@ -43,7 +44,7 @@
       --font-size-sm: 15px;
       --font-size-base: 16px;
       --font-size-lg: 18px;
-      
+
       --space-1: 5px;
       --space-2: 6px;
       --space-3: 8px;
@@ -60,13 +61,16 @@
       --motion-instant: 150ms ease-in-out;
     }
 
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    html, body {
+    html,
+    body {
       min-height: 100vh;
       font-family: var(--font-family-primary);
       font-size: var(--font-size-base);
@@ -169,7 +173,8 @@
       transition: background var(--motion-instant), border-color var(--motion-instant);
     }
 
-    .menu-toggle:hover, .menu-toggle:focus-visible {
+    .menu-toggle:hover,
+    .menu-toggle:focus-visible {
       background: rgba(27, 44, 110, 0.05);
       border-color: rgba(27, 44, 110, 0.18);
       outline: none;
@@ -204,7 +209,8 @@
       transition: background var(--motion-instant), border-color var(--motion-instant);
     }
 
-    .notification-btn:hover, .notification-btn:focus-visible {
+    .notification-btn:hover,
+    .notification-btn:focus-visible {
       background: rgba(27, 44, 110, 0.05);
       border-color: rgba(27, 44, 110, 0.18);
       outline: none;
@@ -244,7 +250,8 @@
       transition: background var(--motion-instant), border-color var(--motion-instant);
     }
 
-    .user-dropdown-btn:hover, .user-dropdown-btn:focus-visible {
+    .user-dropdown-btn:hover,
+    .user-dropdown-btn:focus-visible {
       background: rgba(27, 44, 110, 0.05);
       border-color: rgba(27, 44, 110, 0.18);
       outline: none;
@@ -274,7 +281,7 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
       width: 100%;
     }
 
@@ -287,26 +294,32 @@
       align-items: center;
       gap: 12px;
       padding: 12px 18px;
-      color: #ffffff;
+      color: var(--navy);
       text-decoration: none;
       font-size: 14px;
       font-weight: 600;
-      background: var(--navy);
-      transition: all var(--motion-instant);
-      border-left: 4px solid transparent;
+      background: transparent;
       border-radius: var(--radius-xs);
-      margin-bottom: 3px;
+      transition: all var(--motion-instant);
     }
 
-    .sidebar-link:hover, .sidebar-link:focus-visible {
-      background: var(--navy-dark);
+    .sidebar-link:hover,
+    .sidebar-link:focus-visible {
+      background: rgba(27, 44, 110, 0.08);
+      color: var(--navy-dark);
       outline: none;
     }
 
     .sidebar-link.active {
-      background-color: var(--color-surface-raised);
+      background: #FFC000;
       color: #000000;
       font-weight: 700;
+      box-shadow: 0 2px 8px rgba(255, 192, 0, 0.3);
+    }
+
+    .sidebar-link.active .sidebar-icon {
+      fill: #000000;
+      stroke: #000000;
     }
 
     .sidebar-icon {
@@ -419,7 +432,8 @@
       font-weight: 500;
     }
 
-    .level-link:hover, .level-link:focus-visible {
+    .level-link:hover,
+    .level-link:focus-visible {
       text-decoration: underline;
     }
 
@@ -469,7 +483,8 @@
       font-size: 13px;
     }
 
-    .blog-title-link:hover, .blog-title-link:focus-visible {
+    .blog-title-link:hover,
+    .blog-title-link:focus-visible {
       text-decoration: underline;
     }
 
@@ -534,7 +549,8 @@
       text-align: center;
     }
 
-    .action-btn:hover, .action-btn:focus-visible {
+    .action-btn:hover,
+    .action-btn:focus-visible {
       background-color: var(--color-surface-strong-hover);
       outline: none;
     }
@@ -560,7 +576,8 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    .btn-view-more:hover, .btn-view-more:focus-visible {
+    .btn-view-more:hover,
+    .btn-view-more:focus-visible {
       background-color: var(--color-surface-raised-hover);
       outline: none;
     }
@@ -597,12 +614,15 @@
       .dashboard-grid {
         grid-template-columns: 1fr;
       }
+
       .main-wrapper {
         flex-direction: column;
       }
+
       .sidebar {
         width: 100%;
       }
+
       .dashboard-view {
         margin: 16px;
       }
@@ -617,7 +637,7 @@
   <div class="ambient-glow-2"></div>
 
   <div class="app-container">
-    
+
     <!-- Top Navigation Header -->
     <header class="navbar" role="banner">
       <div class="navbar-left">
@@ -634,7 +654,8 @@
       <div class="navbar-right">
         <!-- Notification Icon with Count -->
         <button class="notification-btn" aria-label="Notifications, 44 unread">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
           </svg>
@@ -644,7 +665,8 @@
         <!-- User Dropdown Menu -->
         <button class="user-dropdown-btn" aria-label="User menu for HB Testing Center" aria-expanded="false">
           <span>HB Testing Center</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
@@ -653,15 +675,20 @@
 
     <!-- Main Workspace Section -->
     <div class="main-wrapper">
-      
+
       <!-- Left Sidebar Navigation -->
       <aside class="sidebar" role="navigation" aria-label="Main Navigation">
         <ul class="sidebar-menu">
-          
+
           <li class="sidebar-item">
             <a href="dashboard.html" class="sidebar-link active" aria-current="page">
-              <svg class="sidebar-icon" viewBox="0 0 24 24">
-                <path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/>
+              <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5" viewBox="0 0 17.5 17.5">
+                <g id="dashboard" transform="translate(-3.75 -3.75)">
+                  <path id="Path_787" data-name="Path 787" d="M4.5,4.5h6.512v6.512H4.5Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_788" data-name="Path 788" d="M21,4.5h6.512v6.512H21Z" transform="translate(-7.012)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_789" data-name="Path 789" d="M21,21h6.512v6.512H21Z" transform="translate(-7.012 -7.012)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_790" data-name="Path 790" d="M4.5,21h6.512v6.512H4.5Z" transform="translate(0 -7.012)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                </g>
               </svg>
               <span>Dashboard</span>
             </a>
@@ -669,10 +696,12 @@
 
           <li class="sidebar-item">
             <a href="#" class="sidebar-link">
-              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5" viewBox="0 0 17.5 17.5">
+                <g id="about_us" data-name="about us" transform="translate(-2.25 -2.25)">
+                  <path id="Path_856" data-name="Path 856" d="M19,11a8,8,0,1,1-8-8A8,8,0,0,1,19,11Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_857" data-name="Path 857" d="M18,21.2V18" transform="translate(-7 -7)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_858" data-name="Path 858" d="M18,12h0" transform="translate(-7 -4.2)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                </g>
               </svg>
               <span>About Us</span>
             </a>
@@ -691,11 +720,12 @@
 
           <li class="sidebar-item">
             <a href="#" class="sidebar-link">
-              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
-                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
-                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
-                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+              <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="17.497" height="17.497" viewBox="0 0 17.497 17.497">
+                <g id="rssblog" transform="translate(-5.25 -5.25)">
+                  <path id="Path_802" data-name="Path 802" d="M6,16.5a9,9,0,0,1,9,9" transform="translate(0 -3.502)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_803" data-name="Path 803" d="M6,6A16,16,0,0,1,22,22" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_804" data-name="Path 804" d="M8,28a1,1,0,1,1-1-1A1,1,0,0,1,8,28Z" transform="translate(0 -7.003)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                </g>
               </svg>
               <span>Blogs</span>
             </a>
@@ -703,8 +733,12 @@
 
           <li class="sidebar-item">
             <a href="#" class="sidebar-link">
-              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="17.497" height="17.497" viewBox="0 0 17.497 17.497">
+                <g id="rssblog" transform="translate(-5.25 -5.25)">
+                  <path id="Path_802" data-name="Path 802" d="M6,16.5a9,9,0,0,1,9,9" transform="translate(0 -3.502)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_803" data-name="Path 803" d="M6,6A16,16,0,0,1,22,22" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_804" data-name="Path 804" d="M8,28a1,1,0,1,1-1-1A1,1,0,0,1,8,28Z" transform="translate(0 -7.003)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                </g>
               </svg>
               <span>Copyright Policy</span>
             </a>
@@ -712,12 +746,14 @@
 
           <li class="sidebar-item">
             <a href="#" class="sidebar-link">
-              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
+              <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="21.5" viewBox="0 0 17.5 21.5">
+                <g id="condition" transform="translate(-5.25 -2.25)">
+                  <path id="Path_791" data-name="Path 791" d="M16,3H8A2,2,0,0,0,6,5V21a2,2,0,0,0,2,2H20a2,2,0,0,0,2-2V9Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_792" data-name="Path 792" d="M21,3v7h7" transform="translate(-6)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_793" data-name="Path 793" d="M24,19.5H12" transform="translate(-4 -5.5)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_794" data-name="Path 794" d="M24,25.5H12" transform="translate(-4 -7.5)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  <path id="Path_795" data-name="Path 795" d="M15,13.5H12" transform="translate(-4 -3.5)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                </g>
               </svg>
               <span>Terms and Conditions</span>
             </a>
@@ -725,8 +761,8 @@
 
           <li class="sidebar-item">
             <a href="#" class="sidebar-link">
-              <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="17.549" height="17.58" viewBox="0 0 17.549 17.58">
+                <path id="contact_us_" data-name="contact us " d="M13.059,4.558a3.823,3.823,0,0,1,3.02,3.02M13.059,1.5a6.881,6.881,0,0,1,6.078,6.07m-.765,6.1v2.294a1.529,1.529,0,0,1-1.667,1.529,15.13,15.13,0,0,1-6.6-2.347A14.908,14.908,0,0,1,5.521,10.56,15.13,15.13,0,0,1,3.174,3.931,1.529,1.529,0,0,1,4.7,2.265H6.989A1.529,1.529,0,0,1,8.518,3.58a9.816,9.816,0,0,0,.535,2.148,1.529,1.529,0,0,1-.344,1.613l-.971.971A12.232,12.232,0,0,0,12.325,12.9l.971-.971a1.529,1.529,0,0,1,1.613-.344,9.817,9.817,0,0,0,2.148.535A1.529,1.529,0,0,1,18.373,13.671Z" transform="translate(-2.417 -0.672)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
               </svg>
               <span>Contact Us</span>
             </a>
@@ -738,14 +774,14 @@
       <!-- Right Dashboard Content View -->
       <main class="dashboard-view" role="main">
         <div class="dashboard-grid">
-          
+
           <!-- Card 1: Level -->
           <section class="card" aria-labelledby="card-level-heading">
             <h2 id="card-level-heading" class="card-header">Level</h2>
             <div class="card-body">
               <div class="list-box">
                 <span class="scroll-arrow up" aria-hidden="true">▲</span>
-                
+
                 <div class="level-item">
                   <div>
                     <span class="level-label">Level: </span>
@@ -777,7 +813,7 @@
             <div class="card-body">
               <div class="list-box blog-box">
                 <span class="scroll-arrow up" aria-hidden="true">▲</span>
-                
+
                 <!-- Blog Item 1 -->
                 <article class="blog-item">
                   <div class="blog-header-line">
@@ -788,7 +824,8 @@
                     <span class="blog-date">May 15 , 2021</span>
                   </div>
                   <p class="blog-snippet">
-                    Force feeding should be completely avoided. Instead focus on mealtimes being a positive experience for all.
+                    Force feeding should be completely avoided. Instead focus on mealtimes being a positive experience
+                    for all.
                   </p>
                 </article>
 
@@ -811,12 +848,14 @@
                   <div class="blog-header-line">
                     <div>
                       <span class="blog-title-label">Title : </span>
-                      <a href="#" class="blog-title-link">See, Hear, Say, Do - The Importance of Multiple Sensory Learning</a>
+                      <a href="#" class="blog-title-link">See, Hear, Say, Do - The Importance of Multiple Sensory
+                        Learning</a>
                     </div>
                     <span class="blog-date">May 13 , 2021</span>
                   </div>
                   <p class="blog-snippet">
-                    Everyone is unique with different learning styles. The best methodology is one that incorporates all the multiple senses.
+                    Everyone is unique with different learning styles. The best methodology is one that incorporates all
+                    the multiple senses.
                   </p>
                 </article>
 
@@ -835,7 +874,7 @@
             <div class="card-body">
               <div class="list-box">
                 <span class="scroll-arrow up" aria-hidden="true">▲</span>
-                
+
                 <!-- Student 1 -->
                 <div class="student-item">
                   <div class="student-name">Nauman Hidden Brains</div>
@@ -865,7 +904,8 @@
             <div class="card-body">
               <div class="empty-state">
                 <div class="empty-icon-circle" aria-hidden="true">
-                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 1-2 2v16a2 2 0 0 1 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
                     <line x1="9" y1="13" x2="15" y2="13"></line>
@@ -990,7 +1030,7 @@
     }
 
     // Toggle menu button behavior
-    document.getElementById('menuToggleBtn').addEventListener('click', function() {
+    document.getElementById('menuToggleBtn').addEventListener('click', function () {
       const sidebar = document.querySelector('.sidebar');
       if (sidebar.style.display === 'none') {
         sidebar.style.display = 'flex';
@@ -1000,4 +1040,5 @@
     });
   </script>
 </body>
+
 </html>
