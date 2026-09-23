@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/MissRennuOnline-master/index.html" },
+    { "source": "/(.*)", "destination": "/MissRennuOnline-master/$1" }
+  ]
+}
